@@ -29,6 +29,19 @@ void CelestialBody::Update(float deltaTime){
     Vector3 deltaP = Vector3Scale(m_velocity, deltaTime);
     m_position = Vector3Add(m_position, deltaP);
 
+    if (m_position.x > m_limit || m_position.x < -m_limit)
+    {
+        m_velocity.x *= -0.6;
+    }
+    if (m_position.y > m_limit || m_position.y < -m_limit)
+    {
+        m_velocity.y *= -0.6;
+    }
+    if (m_position.z > m_limit || m_position.z < -m_limit)
+    {
+        m_velocity.z *= -0.6;
+    }
+
     // 4. Reset Forces
     // We must clear the force accumulator every frame, otherwise forces build up forever!
     m_forceAccumulator = { 0.0f, 0.0f, 0.0f };

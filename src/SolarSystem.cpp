@@ -1,6 +1,7 @@
 #include "SolarSystem.h"
 #include "CelestialBody.h"
 #include "raymath.h"
+
 SolarSystem::SolarSystem() {
     // Constructor implementation (if needed)
 }

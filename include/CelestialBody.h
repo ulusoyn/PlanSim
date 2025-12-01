@@ -11,6 +11,7 @@ protected:
 
     float m_mass;
     float m_radius;
+    float m_limit = 100.0f; // Boundary limit for simple collision
     
     Vector3 m_position;
     Vector3 m_velocity;

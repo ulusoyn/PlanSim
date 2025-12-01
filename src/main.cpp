@@ -3,6 +3,11 @@
 #include "SolarSystem.h"
 #include "rcamera.h"
 #include "Simmode.h"
+#include "CameraHandler.h"
+#include "rlImGui.h"
+#include "raylib.h"
+#include "imgui.h"
+
 #include "raymath.h"
 #include <functional>
 
@@ -35,24 +40,33 @@ int main()
 {
     const int screenWidth = 1440;
     const int screenHeight = 900;
-    InitWindow(screenWidth, screenHeight, "Planet Sim");
+
+	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
+    InitWindow(screenWidth, screenHeight, "Planet Sim - ImGui Integration Example");
+	SetTargetFPS(144);
+	rlImGuiSetup(true);
 
     std::unique_ptr<SolarSystem> solarSystem = std::make_unique<SolarSystem>();
 
-    // Define the camera to look into our 3d world
-    Camera3D camera = { 0 };
-    camera.position = Vector3{10.0f, 10.0f, 10.0f}; // Camera position
-    camera.target = Vector3{ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = Vector3{ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-    camera.fovy = 60.0f;                                // Camera field-of-view Y
-    camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
+    CameraHandler cameraHandler(
+        Vector3{10.0f, 10.0f, 10.0f}, // position
+        Vector3{0.0f, 0.0f, 0.0f},    // target
+        Vector3{0.0f, 1.0f, 0.0f},    // up
+        60.0f,                        // fovy
+        CAMERA_PERSPECTIVE            // projection mode
+    );
 
-    int cameraMode = CAMERA_FIRST_PERSON;
     
     bool isCursorVisible = false;
-    DisableCursor();                    // Limit cursor to relative movement inside the window
+    bool run = true;
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    bool showDemoWindow = true;
+
+#ifdef IMGUI_HAS_DOCK
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+#endif
+
+    DisableCursor();                    // Limit cursor to relative movement inside the window
 
     solarSystem->AddBody("Sun", 1000.0f, 5.0f, YELLOW, Vector3{0,0,0}, Vector3{0,0,0});
 
@@ -69,8 +83,11 @@ int main()
         //----------------------------------------------------------------------------------
         solarSystem->Update(GetFrameTime());
         solarSystem->ApplyGravity();
-        // Key input to toggle cursor visibility
+
+
         
+        // MAYBE IMPLEMENTING A BETTER INPUT SYSTEM LATER !!
+
         if(IsKeyPressed((KEY_F)))
         {
             if (CurrentMode == Simmode::EditingMode)
@@ -85,35 +102,13 @@ int main()
             }
         }
 
-        if (IsKeyPressed(KEY_Z)) camera.target = Vector3{ 0.0f, 0.0f, 0.0f };
+        if (IsKeyPressed(KEY_Z)) cameraHandler.SelectTarget(Vector3{0.0f, 0.0f, 0.0f});
 
 
         // Switch camera projection
         if (CurrentMode == Simmode::CameraControl && IsKeyPressed(KEY_P))
         {
-            if (camera.projection == CAMERA_PERSPECTIVE)
-            {
-                // Create isometric view
-                cameraMode = CAMERA_THIRD_PERSON;
-                // Note: The target distance is related to the render distance in the orthographic projection
-                camera.position = Vector3{ 0.0f, 2.0f, -100.0f };
-                camera.target = Vector3{ 0.0f, 2.0f, 0.0f };
-                camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
-                camera.projection = CAMERA_ORTHOGRAPHIC;
-                camera.fovy = 20.0f; // near plane width in CAMERA_ORTHOGRAPHIC
-                CameraYaw(&camera, -135*DEG2RAD, true);
-                CameraPitch(&camera, -45*DEG2RAD, true, true, false);
-            }
-            else if (camera.projection == CAMERA_ORTHOGRAPHIC)
-            {
-                // Reset to default view
-                cameraMode = CAMERA_THIRD_PERSON;
-                camera.position = Vector3{ 0.0f, 2.0f, 10.0f };
-                camera.target = Vector3{ 0.0f, 2.0f, 0.0f };
-                camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
-                camera.projection = CAMERA_PERSPECTIVE;
-                camera.fovy = 60.0f;
-            }
+            cameraHandler.SwitchProjection();
         }
 
         if(CurrentMode == Simmode::EditingMode)
@@ -153,7 +148,7 @@ int main()
                     Vector3 planePoint = { 0.0f, 0.0f, 0.0f };
                     Vector3 planeNormal = { 0.0f, 0.0f, 1.0f };
 
-                    Ray startRay = GetMouseRay(GetMousePosition(), camera);
+                    Ray startRay = GetMouseRay(GetMousePosition(), cameraHandler.GetCamera());
 
                     // Store the first intersection point
                     dragStartPos = RaycastPlaneIntersection(startRay, planePoint, planeNormal);
@@ -170,7 +165,7 @@ int main()
                     Vector3 planeNormal = { 0.0f, 0.0f, 1.0f };
 
                     // --- 2. Calculate the Ray for the current mouse position ---
-                    Ray currentRay = GetMouseRay(GetMousePosition(), camera);
+                    Ray currentRay = GetMouseRay(GetMousePosition(), cameraHandler.GetCamera());
 
                     // --- 3. Determine the Ghost Point (The current 3D point on the plane) ---
                     Vector3 current3DPosition = RaycastPlaneIntersection(currentRay, planePoint, planeNormal);
@@ -189,13 +184,16 @@ int main()
         
         
 
-        if(CurrentMode == Simmode::CameraControl) UpdateCamera(&camera, cameraMode);
-        // Draw
+        if(CurrentMode == Simmode::CameraControl) cameraHandler.CameraUpdate();
+
+
+        // Drawing begins
         //----------------------------------------------------------------------------------
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+            ClearBackground(DARKGRAY);
 
-            BeginMode3D(camera);
+
+            BeginMode3D(cameraHandler.GetCamera());
 
                 if (isDragging)
                 {         
@@ -206,10 +204,61 @@ int main()
                 solarSystem->Draw();
 
             EndMode3D();
-            
+
+            // Drawing everything before rlImGui begins. 
+
+            rlImGuiBegin();
+
+// Add docking to the ImGui viewport
+#ifdef IMGUI_HAS_DOCK
+		ImGui::DockSpaceOverViewport(0,  NULL, ImGuiDockNodeFlags_PassthruCentralNode); // set ImGuiDockNodeFlags_PassthruCentralNode so that we can see the raylib contents behind the dockspace
+#endif
+
+        // start ImGui Conent
+
+            // show ImGui Content
+            bool open = true;
+            ImGui::ShowDemoWindow(&open);
+
+            open = true;
+
+                    // show a simple menu bar
+            if (ImGui::BeginMainMenuBar())
+            {
+                if (ImGui::BeginMenu("File"))
+                {
+                    if (ImGui::MenuItem("Quit"))
+                        run = false;
+
+                    ImGui::EndMenu();
+                }
+
+                if (ImGui::BeginMenu("Window"))
+                {
+                    if (ImGui::MenuItem("Demo Window", nullptr, showDemoWindow))
+                        showDemoWindow = !showDemoWindow;
+
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();
+            }
+
+            // show some windows
+        
+            if (showDemoWindow)
+                ImGui::ShowDemoWindow(&showDemoWindow);
+
+            if (ImGui::Begin("Test Window"))
+            {
+                ImGui::TextUnformatted("Another window");
+                DrawSphere(Vector3{0,0,0}, 1.0f, RED);
+            }
+            ImGui::End();
+        rlImGuiEnd();
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
+    rlImGuiShutdown();
 
     CloseWindow();
 

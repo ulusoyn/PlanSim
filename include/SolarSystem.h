@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "raylib.h"
+#include <memory>
 
 class CelestialBody;
 
