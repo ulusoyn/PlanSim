@@ -68,7 +68,7 @@ int main()
 
     DisableCursor();                    // Limit cursor to relative movement inside the window
 
-    solarSystem->AddBody("Sun", 1000.0f, 5.0f, YELLOW, Vector3{0,0,0}, Vector3{0,0,0});
+    solarSystem->AddBody("Sun", 10.0f, 5.0f, YELLOW, Vector3{0,0,0}, Vector3{0,0,0});
 
     Simmode CurrentMode = Simmode::CameraControl;
     EditingSubMode CurrentEditSubMode = EditingSubMode::Idle;
@@ -85,8 +85,6 @@ int main()
         solarSystem->ApplyGravity();
 
 
-        
-        // MAYBE IMPLEMENTING A BETTER INPUT SYSTEM LATER !!
 
         if(IsKeyPressed((KEY_F)))
         {
@@ -155,7 +153,7 @@ int main()
                 }
                 if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                 {
-                    solarSystem->AddBody("NewPlanet", ghostRadius * SimPhysics::UNIT_MASS, ghostRadius, BLUE, dragStartPos, Vector3{0.0f, 0.0f, 0.0f});
+                    solarSystem->AddBody("NewPlanet", ghostRadius * SimPhysics::UNIT_MASS, ghostRadius, ORANGE, dragStartPos, Vector3{0.0f, 0.0f, 0.0f});
                     isDragging = false;
                 }
 

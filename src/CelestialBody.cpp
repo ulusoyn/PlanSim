@@ -31,15 +31,15 @@ void CelestialBody::Update(float deltaTime){
 
     if (m_position.x > m_limit || m_position.x < -m_limit)
     {
-        m_velocity.x *= -0.6;
+        m_velocity.x *= -0.9f;
     }
     if (m_position.y > m_limit || m_position.y < -m_limit)
     {
-        m_velocity.y *= -0.6;
+        m_velocity.y *= -0.9f;
     }
     if (m_position.z > m_limit || m_position.z < -m_limit)
     {
-        m_velocity.z *= -0.6;
+        m_velocity.z *= -0.9f;
     }
 
     // 4. Reset Forces
@@ -49,10 +49,10 @@ void CelestialBody::Update(float deltaTime){
 
 // --- Draw (The Render Engine) ---
 void CelestialBody::Draw() {
-    DrawSphere(m_position, m_radius, m_color);
+    DrawSphereEx(m_position, m_radius, 64, 64, BLUE);
     
     // Optional: Draw a wireframe around it to make it look "techy"
-    DrawSphereWires(m_position, m_radius + 0.1f, 16, 16, Fade(BLACK, 0.3f));
+    DrawSphereWires(m_position, m_radius + 0.1f, 32, 32, Fade(BLACK, 0.3f));
 }
 
 // --- Physics Helpers ---
