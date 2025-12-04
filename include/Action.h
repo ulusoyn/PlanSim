@@ -6,9 +6,6 @@
 struct Action
 {
     std::string name;
-    GameMode gamemode;
-    std::function<void()> onTrigger;
-    std::function<void()> onHold;
-    std::function<void()> onRelease;
+    std::function<void()> command;
     bool enabled = true;
 };

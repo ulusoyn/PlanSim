@@ -7,8 +7,9 @@
 class InputManager
 {
 private:
-    std::unordered_map<GameMode,std::unordered_map<int, InputHandler>> m_inputHandlers; // keycode to InputHandler mapping
-
+    std::unordered_map<int, InputHandler> m_inputHandlersFlat; // keycode to InputHandler mapping
+    std::unordered_map<GameMode,std::unordered_map<int, Action>> m_inputHandlers; // keycode to InputHandler mapping
+    
 public:
     InputManager();
 
