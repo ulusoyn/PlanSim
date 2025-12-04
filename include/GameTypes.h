@@ -2,13 +2,14 @@
 
 // This file defines various game-related enumerations used across the project.
 
-enum class GameMode {
+enum class GameState {
     CameraControl,
     EditingMode,
     FreeTravelMode
 };
 
-enum class ButtonCommand {
+
+enum class ActionMode {
     Trigger,   // JustPressed
     Hold,      // Held
     Release    // JustReleased
@@ -19,21 +20,17 @@ enum class ActionType {
     
     // Mode switching
     ToggleMode,
+    FreeLookMode,
+    OptionsMode,
     
     // Camera actions
     ResetCamera,
     SwitchProjection,
     
     // Editing actions
-    StartPlacing,
-    UpdatePlacing,
-    FinishPlacing,
+    PlaceObject,
+    DragObject,
+    DeleteBody,
+    ApplyForce,
     
-    StartDragging,
-    UpdateDragging,
-    FinishDragging,
-    
-    DeleteBody
-    
-    // Add more as needed
 };

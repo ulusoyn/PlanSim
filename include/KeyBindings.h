@@ -6,20 +6,24 @@
 
 class KeyBindings {
 public:
-    static std::map<std::tuple<GameMode, int, ButtonCommand>, ActionType> GetDefaultBindings() {
+    static std::map<std::tuple<GameState, int>, ActionType> GetDefaultBindings() {
         return {
             // Toggle mode
-            {{GameMode::CameraControl, KEY_F, ButtonCommand::Trigger}, ActionType::ToggleMode},
-            {{GameMode::EditingMode, KEY_F, ButtonCommand::Trigger}, ActionType::ToggleMode},
+            {{GameState::CameraControl, KEY_F}, ActionType::ToggleMode},
+            {{GameState::EditingMode, KEY_F}, ActionType::ToggleMode},
             
             // Camera
-            {{GameMode::CameraControl, KEY_Z, ButtonCommand::Trigger}, ActionType::ResetCamera},
-            {{GameMode::CameraControl, KEY_P, ButtonCommand::Trigger}, ActionType::SwitchProjection},
+            {{GameState::CameraControl, KEY_Z}, ActionType::ResetCamera},
+            {{GameState::CameraControl, KEY_P}, ActionType::SwitchProjection},
             
             // Placing
-            {{GameMode::EditingMode, KEY_C, ButtonCommand::Trigger}, ActionType::StartPlacing},
-            {{GameMode::EditingMode, KEY_C, ButtonCommand::Hold}, ActionType::UpdatePlacing},
-            {{GameMode::EditingMode, KEY_C, ButtonCommand::Release}, ActionType::FinishPlacing},
+            {{GameState::EditingMode, KEY_C}, ActionType::PlaceObject},
+
+            // Dragging
+            {{GameState::EditingMode, KEY_V}, ActionType::DragObject},
+
+            // Note: Dragging and placing can be combined. Could be identified 
+            // by checking if the mouse ray hitting a planet or not. 
         };
     }
 };

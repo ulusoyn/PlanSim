@@ -1,8 +1,8 @@
 #pragma once
 #include "Constants.h"
+#include "raylib.h"
 #include <iostream>
 #include <vector>
-#include "raylib.h"
 #include <memory>
 
 class CelestialBody;
@@ -16,6 +16,7 @@ protected:
 public:
     SolarSystem();
 
+    int GetBodyCount() {return m_bodies.size();}
     void Update(float deltaTime);
     void Draw();
     void AddBody(std::string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity);
