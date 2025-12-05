@@ -1,7 +1,16 @@
-#include "ActionPlaceBody.h"
+
+#include "core/Constants.h"
+#include "core/GameServices.h"
+#include "input/actions/ActionPlaceBody.h"
+#include "input/InputContext.h"
+#include "physics/SolarSystem.h"
+#include "ui/OutputContext.h"
+
+
+#include "raylib.h"
 #include "raymath.h"
+
 #include <string>
-#include "Constants.h"
 Vector3 ActionPlaceBody::RaycastPlaneIntersection(Ray ray, Vector3 planePoint, Vector3 planeNormal)
 {
         // 1. Calculate the distance 't' along the ray to the intersection point.
@@ -21,7 +30,7 @@ Vector3 ActionPlaceBody::RaycastPlaneIntersection(Ray ray, Vector3 planePoint, V
         return Vector3Add(ray.position, Vector3Scale(ray.direction, t));
 }
 
-void ActionPlaceBody::OnTrigger(const InputContext& ctx , GameServices& services){
+void ActionPlaceBody::OnTrigger(const InputContext& ctx , GameServices& services, OutputContext& output){
         Vector3 planePoint = { 0.0f, 0.0f, 0.0f };
         Vector3 planeNormal = { 0.0f, 0.0f, 1.0f };
 
@@ -30,7 +39,7 @@ void ActionPlaceBody::OnTrigger(const InputContext& ctx , GameServices& services
         m_startPosition = RaycastPlaneIntersection(startRay, planePoint, planeNormal);
 }
 
-void ActionPlaceBody::OnHold(const InputContext& ctx , GameServices& services){
+void ActionPlaceBody::OnHold(const InputContext& ctx , GameServices& services, OutputContext& output){
 
         Vector3 planePoint = { 0.0f, 0.0f, 0.0f };
         Vector3 planeNormal = { 0.0f, 0.0f, 1.0f };
@@ -45,10 +54,10 @@ void ActionPlaceBody::OnHold(const InputContext& ctx , GameServices& services){
         if (m_ghostRadius < 0.1f) m_ghostRadius = 0.1f;
 }
 
-void ActionPlaceBody::OnRelease(const InputContext& ctx , GameServices& services){
-        int numb = (services.solarSystem)->GetBodyCount();
-        std::string planetName = "Planet" + std::to_string(numb);
-        (services.solarSystem)->AddBody(planetName, SimPhysics::UNIT_MASS,
+void ActionPlaceBody::OnRelease(const InputContext& ctx , GameServices& services, OutputContext& output){
+        int numb = services.solarSystem->GetBodyCount();
+        std::string planetName = " Planet" + std::to_string(numb);
+        services.solarSystem->AddBody(planetName, SimPhysics::UNIT_MASS,
                 m_ghostRadius*SimPhysics::UNIT_DISTANCE, GREEN, m_startPosition, Vector3{0.0f, 0.0f, 0.0f});
 }
 

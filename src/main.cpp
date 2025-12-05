@@ -66,7 +66,7 @@ int main()
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 #endif
 
-    DisableCursor();                    // Limit cursor to relative movement inside the window
+    DisableCursor();   // Limit cursor to relative movement inside the window
 
     solarSystem->AddBody("Sun", 10.0f, 5.0f, YELLOW, Vector3{0,0,0}, Vector3{0,0,0});
 

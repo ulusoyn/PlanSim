@@ -6,7 +6,6 @@
 class CelestialBody {
 protected:
     std::string m_name;
-    
     Color m_color;
 
     float m_mass;
@@ -27,11 +26,21 @@ public:
 
     virtual ~CelestialBody() = default;
 
+    virtual void ChangeColor(Color newColor) { m_color = newColor; }
     virtual void Update(float deltaTime);
     virtual void Draw();
+    virtual void DrawWires(Color color);
     virtual void ApplyForce(Vector3 force);
 
     // Getters
-    Vector3 GetPosition() const { return m_position; }
     float GetMass() const { return m_mass; }
+    float GetRadius() const { return m_radius; }
+    Vector3 GetPosition() const { return m_position; }
+    Vector3 GetVelocity() { return m_velocity; }
+    Vector3 GetAcceleration() { return m_acceleration; }
+
+    //Setters
+    void SetPosition(const Vector3& position) { m_position = position; }
+    void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }
+    void SetAcceleration(const Vector3& acceleration) { m_acceleration = acceleration; }
 };

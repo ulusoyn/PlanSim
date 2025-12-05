@@ -1,5 +1,5 @@
 #pragma once
-#include "GameTypes.h"
+#include "core/GameTypes.h"
 #include "raylib.h"
 #include <map>
 #include <tuple>

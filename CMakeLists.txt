@@ -60,7 +60,15 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # --- 2. INCLUDE DIRECTORIES ---
 # CMAKE_CURRENT_SOURCE_DIR ensures it looks in the folder where this script lives
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/physics
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/input
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/rendering
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ui
+)
 
 # --- Linking ---
 target_link_libraries(${PROJECT_NAME} PRIVATE 

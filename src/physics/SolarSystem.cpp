@@ -1,5 +1,5 @@
-#include "SolarSystem.h"
-#include "CelestialBody.h"
+#include "physics/SolarSystem.h"
+#include "physics/CelestialBody.h"
 #include "raymath.h"
 
 SolarSystem::SolarSystem() {

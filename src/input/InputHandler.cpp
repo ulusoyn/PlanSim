@@ -1,4 +1,4 @@
-#include "InputHandler.h"
+#include "input/InputHandler.h"
 
 
 InputHandler::InputHandler(int keyCode)

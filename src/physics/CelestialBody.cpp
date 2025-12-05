@@ -1,4 +1,5 @@
-#include "CelestialBody.h"
+#include "physics/CelestialBody.h"
+
 #include "raymath.h"
 
 CelestialBody::CelestialBody(std::string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity){
@@ -52,7 +53,11 @@ void CelestialBody::Draw() {
     DrawSphereEx(m_position, m_radius, 64, 64, BLUE);
     
     // Optional: Draw a wireframe around it to make it look "techy"
-    DrawSphereWires(m_position, m_radius + 0.1f, 32, 32, Fade(BLACK, 0.3f));
+    DrawWires(m_color);
+}
+
+void CelestialBody::DrawWires(Color color){
+    DrawSphereWires(m_position, m_radius + 0.1f, 32, 32, Fade(color, 0.6f));
 }
 
 // --- Physics Helpers ---

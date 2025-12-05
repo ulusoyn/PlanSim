@@ -1,5 +1,6 @@
 #pragma once
-#include "GameTypes.h"
+
+#include "core/GameTypes.h"
 #include "raylib.h"
 
 struct InputContext{

@@ -29,7 +29,7 @@ enum class ActionType {
     
     // Editing actions
     PlaceObject,
-    DragObject,
+    SelectAndDrag,
     DeleteBody,
     ApplyForce,
     

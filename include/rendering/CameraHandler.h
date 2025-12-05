@@ -2,8 +2,6 @@
 #include "raylib.h"
 #include "rcamera.h"
 
-
-
 class CameraHandler {
 protected:
     Camera3D m_camera;
