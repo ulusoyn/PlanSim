@@ -1,5 +1,6 @@
-#include "core/GameServices.h"
 #include "core/Game.h"
+#include "core/GameServices.h"
+#include "core/GameTypes.h"
 #include "physics/SolarSystem.h"
 
 

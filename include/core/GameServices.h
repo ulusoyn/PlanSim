@@ -3,6 +3,7 @@
 #include "raylib.h"
 
 class Game;
+enum class GameState;
 class SolarSystem;
 
 struct GameServices{

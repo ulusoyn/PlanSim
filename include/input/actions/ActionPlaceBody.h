@@ -13,9 +13,6 @@ private:
 
     void OnTrigger(const InputContext& ctx , GameServices& services, OutputContext& output) override;
     void OnHold(const InputContext& ctx, GameServices& services, OutputContext& output) override;
-    void OnRelease(const InputContext& ctx, GameServices& services, OutputContext& output) override;
-public:
-    ~ActionPlaceBody() override;
-    ActionPlaceBody();
+    void OnJustRelease(const InputContext& ctx, GameServices& services, OutputContext& output) override;
 
 };

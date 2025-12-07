@@ -12,4 +12,5 @@ private:
     void OnRelease(const InputContext& ctx, GameServices& services, OutputContext& output) override;
 
     std::shared_ptr<CelestialBody> FindClosestBody(const InputContext& ctx, GameServices& services, OutputContext& output);
+
 };

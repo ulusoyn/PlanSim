@@ -39,6 +39,8 @@ public:
     Vector3 GetVelocity() { return m_velocity; }
     Vector3 GetAcceleration() { return m_acceleration; }
 
+    std::string GetName() {return m_name;}
+
     //Setters
     void SetPosition(const Vector3& position) { m_position = position; }
     void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }

@@ -1,9 +1,9 @@
-
 #include "core/Constants.h"
 #include "core/GameServices.h"
 #include "input/actions/ActionPlaceBody.h"
 #include "input/InputContext.h"
 #include "physics/SolarSystem.h"
+#include "physics/CelestialBody.h"
 #include "ui/OutputContext.h"
 
 
@@ -11,6 +11,11 @@
 #include "raymath.h"
 
 #include <string>
+#include <memory>
+#include <cmath>
+
+
+
 Vector3 ActionPlaceBody::RaycastPlaneIntersection(Ray ray, Vector3 planePoint, Vector3 planeNormal)
 {
         // 1. Calculate the distance 't' along the ray to the intersection point.
@@ -37,6 +42,7 @@ void ActionPlaceBody::OnTrigger(const InputContext& ctx , GameServices& services
         Ray startRay = GetMouseRay(GetMousePosition(), *(services.camera));
 
         m_startPosition = RaycastPlaneIntersection(startRay, planePoint, planeNormal);
+        output.wirebody = std::make_shared<WireFrameBody>(0.1, m_startPosition, ORANGE);
 }
 
 void ActionPlaceBody::OnHold(const InputContext& ctx , GameServices& services, OutputContext& output){
@@ -52,12 +58,18 @@ void ActionPlaceBody::OnHold(const InputContext& ctx , GameServices& services, O
 
         // Optional: Set a minimum radius to prevent division by zero later
         if (m_ghostRadius < 0.1f) m_ghostRadius = 0.1f;
+
+        if (output.wirebody != nullptr){
+                output.wirebody->radius = m_ghostRadius;
+                output.wirebody->position = m_startPosition;
+        } 
 }
 
-void ActionPlaceBody::OnRelease(const InputContext& ctx , GameServices& services, OutputContext& output){
+void ActionPlaceBody::OnJustRelease(const InputContext& ctx , GameServices& services, OutputContext& output){
         int numb = services.solarSystem->GetBodyCount();
         std::string planetName = " Planet" + std::to_string(numb);
-        services.solarSystem->AddBody(planetName, SimPhysics::UNIT_MASS,
-                m_ghostRadius*SimPhysics::UNIT_DISTANCE, GREEN, m_startPosition, Vector3{0.0f, 0.0f, 0.0f});
-}
+        services.solarSystem->AddBody(planetName, m_ghostRadius,
+                m_ghostRadius, ORANGE, m_startPosition, Vector3{0.0f, 0.0f, 0.0f});
 
+        output.wirebody = nullptr;
+}

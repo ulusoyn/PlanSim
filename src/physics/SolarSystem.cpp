@@ -1,9 +1,12 @@
 #include "physics/SolarSystem.h"
 #include "physics/CelestialBody.h"
 #include "raymath.h"
+#include "core/Constants.h"
 
 SolarSystem::SolarSystem() {
     // Constructor implementation (if needed)
+    AddBody("Sun", SimPhysics::EARTH_MASS*10, SimPhysics::EARTH_RADIUS*5, 
+        Color{122, 122, 0, 255}, Vector3{0, 0, 0}, Vector3{0, 0, 0});
 }
 
 

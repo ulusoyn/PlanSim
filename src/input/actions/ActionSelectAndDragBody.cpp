@@ -2,13 +2,16 @@
 #include "input/actions/ActionSelectAndDragBody.h"
 #include "input/InputContext.h"
 #include "physics/SolarSystem.h"
+#include "physics/CelestialBody.h"
 #include "ui/OutputContext.h"
+
+#include <limits>
 
 #include "raymath.h"
 
 std::shared_ptr<CelestialBody> ActionSelectandDragBody::FindClosestBody(const InputContext& ctx, GameServices& services, OutputContext& output){
     // Implementation for dragging the selected body
-    float closestDistance = FLT_MAX;
+    float closestDistance = std::numeric_limits<float>::max();
     std::shared_ptr<CelestialBody> closestBody = nullptr;
     Ray startRay = GetMouseRay(ctx.mousePos, ctx.camera);
     std::vector<std::shared_ptr<CelestialBody>>& bodies = services.solarSystem->GetBodies();
@@ -38,7 +41,6 @@ void ActionSelectandDragBody::OnTrigger(const InputContext& ctx , GameServices& 
 void ActionSelectandDragBody::OnRelease(const InputContext& ctx, GameServices& services, OutputContext& output){
     std::shared_ptr<CelestialBody> closestBody = FindClosestBody(ctx, services, output);
     output.highlightedBody = closestBody;
-
 }
 
 void ActionSelectandDragBody::OnHold(const InputContext& ctx, GameServices& services, OutputContext& output){

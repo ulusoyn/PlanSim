@@ -12,7 +12,6 @@
 
 // Raylib
 #include "raylib.h"
-#include "raymath.h"
 
 // ImGui
 #include "imgui.h"

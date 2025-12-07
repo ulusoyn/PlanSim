@@ -15,6 +15,6 @@ public:
     void ChangeProjection(int camera_mode);
     void SwitchProjection();
     void SelectTarget(Vector3 target) { m_camera.target = target; }
-    Camera3D GetCamera() { return m_camera; }
+    Camera3D* GetCamera() { return &m_camera; }
     int GetProjectionMode() { return m_projectionMode; }
 };

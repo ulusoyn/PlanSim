@@ -1,5 +1,5 @@
 #include "physics/CelestialBody.h"
-
+#include "core/Constants.h"
 #include "raymath.h"
 
 CelestialBody::CelestialBody(std::string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity){
@@ -10,6 +10,17 @@ CelestialBody::CelestialBody(std::string name, float mass, float radius, Color c
     m_position = position;
     m_velocity = velocity;
 
+    m_acceleration = {0.0f, 0.0f, 0.0f};
+    m_forceAccumulator = {0.0f, 0.0f, 0.0f};
+}
+
+CelestialBody::CelestialBody(float radius, Vector3 position){
+    m_name = "random body";
+    m_mass = radius*SimPhysics::UNIT_MASS;
+    m_radius = radius;
+    m_color = RED;
+    m_position = position;
+    m_velocity = Vector3{0.0f, 0.0f, 0.0f};
     m_acceleration = {0.0f, 0.0f, 0.0f};
     m_forceAccumulator = {0.0f, 0.0f, 0.0f};
 }

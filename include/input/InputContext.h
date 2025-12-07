@@ -5,6 +5,7 @@
 
 struct InputContext{
     Vector2 mousePos;
+    Vector2 mouseDelta;
     Camera3D camera;
     float deltaTime;
     GameState gameState;
