@@ -7,13 +7,18 @@
 class KeyBindings {
 public:
     KeyBindings(){}
+    static std::map<int, ActionType> GetGlobalBindings() {
+        return {
+            { KEY_ESCAPE, ActionType::ToggleOptionMenu },
+            { KEY_F,      ActionType::ToggleCursor},
+        };
+    }
+
+    
     static std::map<std::tuple<GameState, int>, ActionType> GetDefaultBindings() {
         return {
             // Toggle mode
-            {{GameState::CameraControl, KEY_F}, ActionType::ToggleMode},
-            {{GameState::EditingMode, KEY_F}, ActionType::ToggleMode},
             {{GameState::EditingMode, KEY_C}, ActionType::CreationMode},
-            {{GameState::EditingMode, KEY_F}, ActionType::ToggleMode},
             
             // Camera
             // {{GameState::CameraControl, KEY_Z}, ActionType::ResetCamera},

@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 
+
 class Game;
 enum class GameState;
 class SolarSystem;
@@ -14,4 +15,5 @@ struct GameServices{
     // Simple state interface
     GameState GetState() const;
     void SetState(GameState s);
+    void SetCursor(bool isVisible);
 };

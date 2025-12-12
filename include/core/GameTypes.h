@@ -6,6 +6,14 @@
 enum class GameState {
     CameraControl,
     EditingMode,
+    OptionMode,
+};
+
+enum class Tools {
+    None,
+    PlaceBody,
+    DragBody,
+    DeleteBody,
 };
 
 
@@ -19,9 +27,12 @@ enum class ActionMode {
 
 enum class ActionType {
     None,  // For "not found" cases
+
+    // Menu
+    ToggleOptionMenu,
     
     // Mode switching
-    ToggleMode,
+    ToggleCursor,
     CreationMode,
     DragMode,
     FreeLookMode,

@@ -18,7 +18,7 @@ protected:
 public:
     SolarSystem();
 
-    int GetBodyCount() {return m_bodies.size();}
+    int GetBodyCount() {return static_cast<int>(m_bodies.size());}
     void Update(float deltaTime);
     void Draw();
     std::vector<std::shared_ptr<CelestialBody>>& GetBodies() { return m_bodies; }
