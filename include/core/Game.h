@@ -27,6 +27,7 @@ private:
     KeyBindings     m_keyBindings;
     OutputContext   m_outputContext;
     SolarSystem     m_solarSystem;
+    Tools           m_currentTool;
 
     
     bool m_isCursorVisible;
@@ -44,13 +45,17 @@ private:
 public:
     Game(const int screenWidth, const int screenHeight);
     ~Game();
+    void InitializeKeyBindings();
     void Update();
     void Render();
     void Run();
+    
     void ChangeGameState(GameState newMode);
-    void InitializeKeyBindings();
+    void ChangeCurrentTool(Tools t) { m_currentTool = t; }
     void ChangeCursorVisibility(bool isVisible) { m_isCursorVisible = isVisible; }
 
-    bool IsRunning() const { return m_isRunning; }
+    Tools GetCurrentTool() const { return m_currentTool; }
     GameState GetGameState(){ return m_currentGameState;}
+
+    bool IsRunning() const { return m_isRunning; }
 };

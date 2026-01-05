@@ -16,6 +16,7 @@ Game::Game(const int screenWidth, const int screenHeight)
       m_solarSystem(SolarSystem()),
       m_inputContext(InputContext()),
       m_outputContext(OutputContext()),
+      m_currentTool(Tools::None),
       m_isCursorVisible(true),
       m_isRunning(true),
       m_keyBindings(KeyBindings()),

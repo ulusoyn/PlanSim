@@ -24,6 +24,10 @@ private:
     std::map<std::tuple<GameState, int>, ActionType> m_bindings;
     std::map<std::tuple<GameState, int>, std::unique_ptr<IAction>> m_actions;
 
+    std::map<int, ActionType> m_globalBindings;
+    std::map<int, std::unique_ptr<IAction>> m_gamePlayBindings;
+    std::map<int, std::unique_ptr<IAction>> m_modalBindings;;
+
     
 public:
     InputManager(GameServices& s, InputContext& ictx, OutputContext& octx, KeyBindings k);

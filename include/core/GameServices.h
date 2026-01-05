@@ -14,6 +14,8 @@ struct GameServices{
 
     // Simple state interface
     GameState GetState() const;
+    Tools GetCurrentTool() const;
+    void SetTool(Tools t);
     void SetState(GameState s);
     void SetCursor(bool isVisible);
 };
