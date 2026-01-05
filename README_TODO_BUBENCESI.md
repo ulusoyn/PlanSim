@@ -1,0 +1,5 @@
+- layer mantiginin tum scriptlere uyarlanmasi
+- aksiyonlarin tuslara nasil atanacagi belirlenmeli
+- key bindings layer mantigina uygun bir sekilde duzenlenmeli
+- input manager dogru sekilde aksiyonlari ve tuslari eslestirmeli
+- update komutu tuslarin islevlerini dogru bir sekilde gerceklestirmeli
