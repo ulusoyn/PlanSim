@@ -24,7 +24,6 @@ public:
             case ActionMode::Hold:     OnHold(ctx, services, output);     break;
             case ActionMode::Release:  OnRelease(ctx, services, output);  break;
             case ActionMode::JustReleased: OnJustRelease(ctx, services, output);  break;
-        
         }
     }
 };

@@ -11,6 +11,8 @@ class IAction;
 struct GameServices;
 struct InputContext;
 struct OutputContext;
+// Forward Declarations
+
 
 class InputManager
 {
@@ -18,11 +20,12 @@ private:
     GameServices& services;
     InputContext& ictx;
     OutputContext& octx;
-    GameState m_gameState;
+    GameState m_gameState; // Maybe change is needed for active layers
+
     std::map<int, InputHandler> m_handlers;
-    // std::vector<InputHandler> m_handlers;
+
     std::map<std::tuple<GameState, int>, ActionType> m_bindings;
-    std::map<std::tuple<GameState, int>, std::unique_ptr<IAction>> m_actions;
+    std::map<ActionType, std::unique_ptr<IAction>> m_actionPrototypes; // Prototypes for each action type
 
     std::map<int, ActionType> m_globalBindings;
     std::map<int, std::unique_ptr<IAction>> m_gamePlayBindings;
@@ -32,12 +35,12 @@ private:
 public:
     InputManager(GameServices& s, InputContext& ictx, OutputContext& octx, KeyBindings k);
 
-    void InitializeActions();
-    void InitializeHandlers();
     
     std::unique_ptr<IAction> CreateAction(ActionType type);
     
+    
+    void InitializeActions();
+    void InitializeHandlers();
+    
     void Update();
-
-
 };

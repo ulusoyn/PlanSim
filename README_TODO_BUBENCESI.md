@@ -3,3 +3,4 @@
 - key bindings layer mantigina uygun bir sekilde duzenlenmeli
 - input manager dogru sekilde aksiyonlari ve tuslari eslestirmeli
 - update komutu tuslarin islevlerini dogru bir sekilde gerceklestirmeli
+- raylibdeki key code'lari cekebilirsin
