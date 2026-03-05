@@ -45,12 +45,12 @@ void Game::ChangeGameState(GameState newState)
 
 void Game::Update()
 {    
-    static bool lastCursorState = m_isCursorVisible;
-    if (lastCursorState != m_isCursorVisible) {
-        lastCursorState = m_isCursorVisible;
-    }
+    // static bool lastCursorState = m_isCursorVisible;
+    // if (lastCursorState != m_isCursorVisible) {
+    //     lastCursorState = m_isCursorVisible;
+    // }
     
-    m_inputManager.Update();
+    // m_inputManager.Update();
 
     if (!m_outputContext.pauseSimulation)
     {
@@ -58,19 +58,19 @@ void Game::Update()
         m_solarSystem.ApplyGravity();
     }
 
-    if(m_currentGameState == GameState::CameraControl) m_cameraHandler.CameraUpdate();
+    // if(m_currentGameState == GameState::CameraControl) m_cameraHandler.CameraUpdate();
 
-    if (m_isCursorVisible != lastCursorState)
-    {
-        if (!m_isCursorVisible)
-        {
-            DisableCursor();
-        }
-        else
-        {
-            EnableCursor();
-        }
-    }
+    // if (m_isCursorVisible != lastCursorState)
+    // {
+    //     if (!m_isCursorVisible)
+    //     {
+    //         DisableCursor();
+    //     }
+    //     else
+    //     {
+    //         EnableCursor();
+    //     }
+    // }
 }
 
 void Game::Render()

@@ -41,62 +41,62 @@ std::unique_ptr<IAction> InputManager::CreateAction(ActionType type) {
 
 void InputManager::Update()
 {
-    m_gameState = services.GetState();
+    // m_gameState = services.GetState();
     
-    // Update input context
-    ictx.mousePos = GetMousePosition();
+    // // Update input context
+    // ictx.mousePos = GetMousePosition();
     
-    // Update handlers
+    // // Update handlers
     for (auto& [inputKey, handler] : m_handlers)
     {
         handler.Update();
     }
     
-    for (auto& [key, actionType] : m_bindings)
-    {
-        auto [bindingState, input] = key;
+    // for (auto& [key, actionType] : m_bindings)
+    // {
+    //     auto [bindingState, input] = key;
         
-        if (bindingState != m_gameState) 
-        {
-            continue;
-        }
+    //     if (bindingState != m_gameState) 
+    //     {
+    //         continue;
+    //     }
         
-        auto it = m_actions.find(key);
-        if (it == m_actions.end()) 
-        {
-            continue;
-        }
+    //     auto it = m_actions.find(key);
+    //     if (it == m_actions.end()) 
+    //     {
+    //         continue;
+    //     }
         
-        IAction* action = it->second.get();
+    //     IAction* action = it->second.get();
         
-        auto handlerIt = m_handlers.find(input);
-        if (handlerIt == m_handlers.end()) 
-        {
-            continue;
-        }
+    //     auto handlerIt = m_handlers.find(input);
+    //     if (handlerIt == m_handlers.end()) 
+    //     {
+    //         continue;
+    //     }
         
-        InputHandler* handler = &(handlerIt->second);
+    //     InputHandler* handler = &(handlerIt->second);
         
-        ActionMode mode = ActionMode::None;
+    //     ActionMode mode = ActionMode::None;
         
-        if (handler->IsJustPressed())
-        {
-            mode = ActionMode::Trigger;
-        }
-        else if (handler->IsHeld())
-        {
-            mode = ActionMode::Hold;
-        }
-        else if (handler->IsReleased())
-        {
-            mode = ActionMode::Release;
-        }
+    //     if (handler->IsJustPressed())
+    //     {
+    //         mode = ActionMode::Trigger;
+    //     }
+    //     else if (handler->IsHeld())
+    //     {
+    //         mode = ActionMode::Hold;
+    //     }
+    //     else if (handler->IsReleased())
+    //     {
+    //         mode = ActionMode::Release;
+    //     }
         
-        if (mode != ActionMode::None)
-        {
-            action->Execute(mode, ictx, services, octx);
-        }
-    }
+    //     if (mode != ActionMode::None)
+    //     {
+    //         action->Execute(mode, ictx, services, octx);
+    //     }
+    // }
 }
 
 void InputManager::InitializeHandlers() {
@@ -111,17 +111,17 @@ void InputManager::InitializeHandlers() {
 }
 
 void InputManager::InitializeActions(){
-    for (const auto& [key, actionType] : m_bindings) {
-        auto [gState, inputKey] = key;
+    // for (const auto& [key, actionType] : m_bindings) {
+    //     auto [gState, inputKey] = key;
 
-        auto action = CreateAction(actionType);
+    //     auto action = CreateAction(actionType);
 
-        if (action)
-        {
-            m_actions.try_emplace(key, std::move(action));
-        }
-        if (m_handlers.find(inputKey) == m_handlers.end()) {
-            m_handlers.emplace(inputKey, InputHandler(inputKey));
-        }
-    }
+    //     if (action)
+    //     {
+    //         m_actions.try_emplace(key, std::move(action));
+    //     }
+    //     if (m_handlers.find(inputKey) == m_handlers.end()) {
+    //         m_handlers.emplace(inputKey, InputHandler(inputKey));
+    //     }
+    // }
 }

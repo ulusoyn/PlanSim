@@ -21,6 +21,7 @@ enum class GameState {
     CameraControl,
     EditingMode,
     OptionMode,
+    CreationMode,
 };
 
 
@@ -69,5 +70,7 @@ enum class ActionType {
     SelectAndDrag,
     DeleteBody,
     ApplyForce,
+
+    ToggleCursor,
     
 };
