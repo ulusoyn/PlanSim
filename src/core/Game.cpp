@@ -31,6 +31,10 @@ Game::Game(const int screenWidth, const int screenHeight)
     SetTargetFPS(0);
     EnableCursor();
     m_currentGameState = GameState::EditingMode;
+
+    m_solarSystem.InitializeBodies();
+
+    m_solarSystem.GetBodies()[0]->LoadBodyTexture("assets/texture.png");
     
 #ifdef IMGUI_HAS_DOCK
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -101,6 +105,10 @@ void Game::Render()
 
 void Game::Run()
 {
+     if (WindowShouldClose()) {
+        m_isRunning = false;
+        return;
+    }
     Update();
     Render();
 }

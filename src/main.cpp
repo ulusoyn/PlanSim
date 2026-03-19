@@ -1,5 +1,5 @@
+#include "core/Game.h"
 #include "pch.h"
-#include "Game.h"
 
 int main()
 {

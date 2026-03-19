@@ -7,8 +7,14 @@ SolarSystem::SolarSystem() {
     // Constructor implementation (if needed)
     AddBody("Sun", SimPhysics::EARTH_MASS*10, SimPhysics::EARTH_RADIUS*5, 
         Color{122, 122, 0, 255}, Vector3{0, 0, 0}, Vector3{0, 0, 0});
-}
 
+        
+}
+void SolarSystem::InitializeBodies() {
+    for (auto& body : m_bodies) {
+        body->Initialize();
+    }
+}
 
 void SolarSystem::ApplyGravity(){
 for (size_t i = 0; i < m_bodies.size(); i++) {
@@ -48,6 +54,7 @@ void SolarSystem::Draw(){
 
 void SolarSystem::AddBody(std::string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity){
     auto body = std::make_unique<CelestialBody>(name, mass, radius, color, position, velocity);
+    body->Initialize();  // ← ekle, AddBody zaten InitWindow'dan sonra çağrılıyor
     m_bodies.push_back(std::move(body));
 }
 

@@ -2,6 +2,15 @@
 #include "core/Constants.h"
 #include "raymath.h"
 
+// Helper: builds the sphere model used for both constructors
+static Model BuildSphereModel(float radius) {
+    // GenMeshSphere(radius, rings, slices)
+    // More rings/slices = smoother sphere, but heavier.
+    // 32x32 is a good balance for a planet.
+    Mesh mesh = GenMeshSphere(radius, 32, 32);
+    return LoadModelFromMesh(mesh);
+}
+
 CelestialBody::CelestialBody(std::string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity){
     m_name = name;
     m_mass = mass;
@@ -12,6 +21,8 @@ CelestialBody::CelestialBody(std::string name, float mass, float radius, Color c
 
     m_acceleration = {0.0f, 0.0f, 0.0f};
     m_forceAccumulator = {0.0f, 0.0f, 0.0f};
+
+    
 }
 
 CelestialBody::CelestialBody(float radius, Vector3 position){
@@ -23,8 +34,37 @@ CelestialBody::CelestialBody(float radius, Vector3 position){
     m_velocity = Vector3{0.0f, 0.0f, 0.0f};
     m_acceleration = {0.0f, 0.0f, 0.0f};
     m_forceAccumulator = {0.0f, 0.0f, 0.0f};
+
+    
 }
 
+CelestialBody::~CelestialBody() {
+    // Unload frees GPU memory for the mesh + texture
+    UnloadModel(m_model);
+}
+
+void CelestialBody::Initialize() {
+    // Bu fonksiyon InitWindow'dan SONRA çağrılacak
+    Mesh mesh = GenMeshSphere(m_radius, 32, 32);
+    m_model = LoadModelFromMesh(mesh);
+}
+
+void CelestialBody::LoadBodyTexture(const char* texturePath) {
+    Texture2D tex = LoadTexture(texturePath);
+    
+    // Eğer texture yüklenmediyse id=0 olur
+    if (tex.id == 0) {
+        TraceLog(LOG_ERROR, "TEXTURE: Yuklenemedi -> %s", texturePath);
+        return;
+    }
+    
+    TraceLog(LOG_INFO, "TEXTURE: Yuklendi! id=%d, %dx%d -> %s", 
+             tex.id, tex.width, tex.height, texturePath);
+    
+    SetTextureFilter(tex, TEXTURE_FILTER_BILINEAR);
+    SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, tex);
+    m_hasTexture = true;
+}
 
 void CelestialBody::Update(float deltaTime){
     if (m_mass > 0) {
@@ -61,9 +101,16 @@ void CelestialBody::Update(float deltaTime){
 
 // --- Draw (The Render Engine) ---
 void CelestialBody::Draw() {
-    DrawSphereEx(m_position, m_radius, 64, 64, BLUE);
+    m_model.transform = MatrixTranslate(m_position.x, m_position.y, m_position.z);
     
-    // Optional: Draw a wireframe around it to make it look "techy"
+    if (m_hasTexture) {
+        DrawModel(m_model, {0,0,0}, 1.0f, WHITE);
+    } else {
+        DrawModel(m_model, {0,0,0}, 1.0f, m_color);
+    }
+    
+    DrawSphereWires(m_position, m_radius + 0.05f, 16, 16, Fade(m_color, 0.3f));
+
     DrawWires(m_color);
 }
 

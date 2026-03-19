@@ -54,25 +54,24 @@ private:
         ImGui::ShowDemoWindow(&open);
 
                 // show a simple menu bar
-        if (ImGui::BeginMainMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
+                
+        // include/ui/GUIService.h — RenderInspector() içinde
+
+            if (ImGui::BeginMainMenuBar())
             {
-                if (ImGui::MenuItem("Quit"))
-
-                ImGui::EndMenu();
+                if (ImGui::BeginMenu("File"))
+                {
+                    if (ImGui::MenuItem("Quit")) {}  
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Window"))
+                {
+                    if (ImGui::MenuItem("Demo Window", nullptr, m_showDemoWindow))
+                        m_showDemoWindow = !m_showDemoWindow;
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();  
             }
-
-            if (ImGui::BeginMenu("Window"))
-            {
-                if (ImGui::MenuItem("Demo Window", nullptr, m_showDemoWindow))
-                    m_showDemoWindow = !m_showDemoWindow;
-
-                ImGui::EndMenu();
-            }
-            ImGui::EndMainMenuBar();
-        }
-
         // show some windows
     
         if (m_showDemoWindow)

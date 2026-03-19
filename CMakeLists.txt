@@ -58,6 +58,14 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 # --- Executable ---
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
+)
+
+
 # --- 2. INCLUDE DIRECTORIES ---
 # CMAKE_CURRENT_SOURCE_DIR ensures it looks in the folder where this script lives
 
@@ -84,3 +92,4 @@ endif()
 if (UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE pthread m)
 endif()
+
