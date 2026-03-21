@@ -17,9 +17,30 @@ public:
         RenderInspector();
         RenderControls();
         RenderDebugInfo();
+        RenderMenuBar(); 
+         
+        if (m_showDemoWindow)
+            ImGui::ShowDemoWindow(&m_showDemoWindow);
     }
 
 private:
+
+    void RenderMenuBar() {
+    if (ImGui::BeginMainMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("Quit")) { /* quit logic */ }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Window")) {
+            ImGui::MenuItem("Demo Window", nullptr, &m_showDemoWindow);
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+}
+
+
+
     void RenderInspector() {
         ImGui::Begin("Celestial Body Inspector");
         
@@ -49,6 +70,7 @@ private:
         
         ImGui::End();
 
+        /*
         // show ImGui Content
         bool open = true;
         ImGui::ShowDemoWindow(&open);
@@ -76,7 +98,7 @@ private:
     
         if (m_showDemoWindow)
             ImGui::ShowDemoWindow(&m_showDemoWindow);
-
+        */
     }
     
     void RenderControls() {
