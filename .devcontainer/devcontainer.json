@@ -1,0 +1,38 @@
+{
+  "name": "PlanetSim C++ Development",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "remoteUser": "vscode",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "DEBIAN_FRONTEND": "noninteractive"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "xaver.clang-format"
+      ],
+      "settings": {
+        "cmake.configureOnOpen": true,
+        "cmake.sourceDirectory": "${workspaceFolder}",
+        "cmake.buildDirectory": "${workspaceFolder}/build",
+        "cmake.buildType": "Debug",
+        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+        "C_Cpp.formatting": "clangFormat",
+        "[cpp]": {
+          "editor.defaultFormatter": "xaver.clang-format",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
+  "postCreateCommand": "mkdir -p ${containerWorkspaceFolder}/build && cd ${containerWorkspaceFolder}/build && cmake .. -DCMAKE_BUILD_TYPE=Debug",
+  "workspaceFolder": "/workspaces/PlanSim"
+}

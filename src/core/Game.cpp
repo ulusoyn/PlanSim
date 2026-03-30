@@ -25,7 +25,7 @@ Game::Game(const int screenWidth, const int screenHeight)
       m_showDemoWindow(true),
       m_guiService(GUIService(m_outputContext, m_services))
 {
-    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Solar System");
     rlImGuiSetup(true);
     SetTargetFPS(0);
